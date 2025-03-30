@@ -8,6 +8,10 @@ class Category(models.Model):
     slug_category = models.SlugField(blank=True)
     icons = models.ImageField(blank=True, default='category.png', upload_to='categoty/')
 
+    def save(self, *args, **kwargs):
+        self.slug_article = slugify(self.title)
+        return super(Category, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
