@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'blog', #blog.apps.BlogConfig
     'about',
     'contact',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +98,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#duplicate old user, and retation not direct
+AUTH_USER_MODEL = 'account.User'
+LOGIN_REDIRECT_URL = '/blog/'
 
 
 # Internationalization
