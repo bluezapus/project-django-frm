@@ -3,10 +3,12 @@ from django.contrib import admin
 from . models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+@admin.register(User) #pola decorators
+
 # Register your models here.
 class UserAdmin(BaseUserAdmin):
     ordering = ['email',]
-    list_display = ['email', 'name', 'is_active']
+    list_display = ['email', 'name', 'is_active', 'is_staff']
 
     fieldsets = (
         (None, {
@@ -39,4 +41,4 @@ class UserAdmin(BaseUserAdmin):
         
     )]
 
-admin.site.register(User, UserAdmin)
+# admin.site.register(User, UserAdmin)

@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-)q!4f3fpyfrq*l)k9)9!!@f*#j_hwz5#*god$i_l041$kdsur)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -103,6 +103,16 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'account.User'
 LOGIN_REDIRECT_URL = '/blog/'
 
+#email sender
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bluezapus@gmail.com'
+EMAIL_HOST_PASSWORD = 'kmbvjwnozhbjrgcn'
+EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
