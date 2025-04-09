@@ -1,0 +1,264 @@
+{% extends "base.html" %} {% block contents %} {% load static %}
+<!-- TopBar -->
+{% include "snippets/topbar.html" %}
+<!-- Navbar & Carousel Start -->
+{% include "snippets/navbar.html" %}
+
+<!-- Spinner Start -->
+<div
+  id="spinner"
+  class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+>
+  <div class="spinner"></div>
+</div>
+<!-- Spinner End -->
+
+<div
+  class="container-fluid bg-primary py-5 bg-header"
+  style="margin-bottom: 90px"
+>
+  <div class="row py-5">
+    <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+      <h1 class="display-4 text-white animated zoomIn">{{title}}</h1>
+      <a href="" class="h5 text-white">Home</a>
+      <i class="far fa-circle text-white px-2"></i>
+      <a href="" class="h5 text-white">Blog Grid</a>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar & Carousel End -->
+
+<!-- Blog Start -->
+<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <!-- Blog list Start -->
+      <div class="col-lg-8">
+        <div class="row g-5">
+          {% if article_tags %} {% for article in article_tags %}
+
+          <div class="col-md-6 wow slideInUp" data-wow-delay="0.1s">
+            <div
+              class="blog-item bg-light rounded overflow-hidden"
+              style="min-height: 500px"
+            >
+              <div class="blog-img position-relative overflow-hidden">
+                <img
+                  class="img-fluid"
+                  src="{{ article.images.url}}"
+                  alt=""
+                  style="width: 400px; height: 250px"
+                />
+                <a
+                  class="position-absolute top-0 start-0 bg-primary text-white rounded-end mt-5 py-2 px-4"
+                  href=""
+                  >{{article.categories}}</a
+                >
+              </div>
+              <div class="p-4">
+                <div class="d-flex mb-3">
+                  <small class="me-3"
+                    ><i class="far fa-user text-primary me-2"></i>John
+                    Doe</small
+                  >
+                  <small
+                    ><i class="far fa-calendar-alt text-primary me-2"></i
+                    >{{article.publish}}</small
+                  >
+                </div>
+
+                {% for tags in article.tags.all %}
+                <a href="">
+                  <span class="text-uppercase text-black text-bg-secondary mb-2"
+                    >{{tags}}</span
+                  >
+                </a>
+                {% endfor %}
+                <h4 class="mb-3">{{article.title|truncatechars:50}}</h4>
+                <p>{{article.fill|truncatechars:60}}</p>
+                <a
+                  class="text-uppercase"
+                  href="/blog/detail/{{article.slug_article}}"
+                  >Read More <i class="bi bi-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+          {% endfor %} {% else %}
+          <div class="alert alert-info">
+            <p class="text-center justify-content-center">No Article Yet</p>
+          </div>
+          {% endif %}
+
+          <div class="col-12 wow slideInUp" data-wow-delay="0.1s">
+            <nav aria-label="Page navigation">
+              {% if articles.has_other_pages %}
+              <ul class="pagination pagination-lg m-0">
+                {% if articles.has_previous %}
+                <li class="page-item">
+                  <a
+                    class="page-link rounded-0"
+                    href="?page={{articles.previous_page_number}}"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true"
+                      ><i class="bi bi-arrow-left"></i
+                    ></span>
+                  </a>
+                </li>
+                {% endif %} {% for i in articles.paginator.page_range %}
+                <!-- if statement -->
+                {% if articles.number == i %}
+                <li class="page-item active">
+                  <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+
+                {% endif %}
+                <!-- -->
+                {% endfor %}
+                <!--  -->
+                {% if articles.has_next %}
+                <li class="page-item">
+                  <a
+                    class="page-link rounded-0"
+                    href="?page={{articles.next_page_number}}"
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true"
+                      ><i class="bi bi-arrow-right"></i
+                    ></span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+              {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- Blog list End -->
+
+      <!-- Sidebar Start -->
+      <div class="col-lg-4">
+        <!-- Search Form Start -->
+        <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+          <div class="input-group">
+            <input type="text" class="form-control p-3" placeholder="Keyword" />
+            <button class="btn btn-primary px-4">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Form End -->
+
+        <!-- Category Start -->
+        <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+          <div
+            class="section-title section-title-sm position-relative pb-3 mb-4"
+          >
+            <h3 class="mb-0">Categories</h3>
+          </div>
+          <div class="link-animated d-flex flex-column justify-content-start">
+            {% for category in list_categories %}
+            <a
+              class="h5 fw-semi-bold bg-light rounded py-2 px-3 mb-2"
+              href="/blog/category/{{category.slug_category}}/"
+              ><i class="bi bi-arrow-right me-2"></i>{{category.title}}</a
+            >
+            {% endfor %}
+          </div>
+        </div>
+        <!-- Category End -->
+
+        <!-- Recent Post Start -->
+        <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+          <div
+            class="section-title section-title-sm position-relative pb-3 mb-4"
+          >
+            <h3 class="mb-0">Recent Post</h3>
+          </div>
+          {% for recent in recent_article %} {% if forloop.counter > 8 %} {%
+          break %} {% endif %}
+          <div class="d-flex rounded overflow-hidden mb-3">
+            <img
+              class="img-fluid"
+              src="{{recent.images.url}}"
+              style="width: 100px; height: 100px; object-fit: cover"
+              alt=""
+            />
+            <a
+              href="/blog/detail/{{recent.slug_article}}"
+              class="h5 fw-semi-bold d-flex align-items-center bg-light px-3 mb-0"
+              >{{recent.title}}
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- Recent Post End -->
+
+        <!-- Image Start -->
+        <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+          <img
+            src="{% static 'img/blog-1.jpg' %}"
+            alt=""
+            class="img-fluid rounded"
+          />
+        </div>
+        <!-- Image End -->
+
+        <!-- Tags Start -->
+        <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+          <div
+            class="section-title section-title-sm position-relative pb-3 mb-4"
+          >
+            <h3 class="mb-0">Tag Cloud</h3>
+          </div>
+
+          <div class="d-flex flex-wrap m-n1">
+            {% for tags in common_tags %}
+            <a href="/blog/tags/{{tags.slug}}" class="btn btn-light m-1"
+              >{{tags}}</a
+            >
+            {% endfor %}
+          </div>
+        </div>
+        <!-- Tags End -->
+
+        <!-- Plain Text Start -->
+        <div class="wow slideInUp" data-wow-delay="0.1s">
+          <div
+            class="section-title section-title-sm position-relative pb-3 mb-4"
+          >
+            <h3 class="mb-0">Plain Text</h3>
+          </div>
+          <div class="bg-light text-center" style="padding: 30px">
+            <p>
+              Vero sea et accusam justo dolor accusam lorem consetetur, dolores
+              sit amet sit dolor clita kasd justo, diam accusam no sea ut tempor
+              magna takimata, amet sit et diam dolor ipsum amet diam
+            </p>
+            <a href="" class="btn btn-primary py-2 px-4">Read More</a>
+          </div>
+        </div>
+        <!-- Plain Text End -->
+      </div>
+      <!-- Sidebar End -->
+    </div>
+  </div>
+</div>
+<!-- Blog End -->
+
+<!-- Vendor Start -->
+{% include "snippets/vendor.html" %}
+<!-- Vendor End -->
+
+<!-- Footer Start -->
+{% include "snippets/footer.html" %}
+<!-- Footer End -->
+
+{% endblock contents %}

@@ -13,9 +13,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)q!4f3fpyfrq*l)k9)9!!@f*#j_hwz5#*god$i_l041$kdsur)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+if DEBUG is True:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = ['172.0.0.1', '*']
 
 
 # Application definition
@@ -31,6 +34,7 @@ INSTALLED_APPS = [
     'about',
     'contact',
     'account',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -103,16 +107,18 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'account.User'
 LOGIN_REDIRECT_URL = '/blog/'
 
+LOGIN_URL = '/accounts/login/'
+
 #email sender
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'bluezapus@gmail.com'
-EMAIL_HOST_PASSWORD = 'kmbvjwnozhbjrgcn'
-EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'bluezapus@gmail.com'
+# EMAIL_HOST_PASSWORD = 'kmbvjwnozhbjrgcn'
+# EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -130,12 +136,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # Pastikan direktori static ada
-]
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),  # Pastikan direktori static ada
+    ]
+else:
+#debug False
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")  # Pastikan direktori static ada
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

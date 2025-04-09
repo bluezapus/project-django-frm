@@ -16,17 +16,40 @@
     {% if request.user.is_authenticated %}
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto py-0">
-        <a href="/" class="nav-item nav-link">Home</a>
-        <a href="/about" class="nav-item nav-link">About</a>
-        <a href="/blog" class="nav-item nav-link">Blog</a>
-        <a href="/contact" class="nav-item nav-link">Contact</a>
+        <a
+          href="{% url 'index' %}"
+          class="{% if request.resolver_match.url_name == 'index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Home</a
+        >
+        <a
+          href="{% url 'about:about_index' %}"
+          class="{% if request.resolver_match.url_name == 'about_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >About</a
+        >
+        <a
+          href="{% url 'blog:blog_index' %}"
+          class="{% if request.resolver_match.url_name == 'blog_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Blog</a
+        >
+        <a
+          href="{% url 'contact:contact_index' %}"
+          class="{% if request.resolver_match.url_name == 'contact_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Contact</a
+        >
         <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+          <a
+            href="{% url 'account:profile' %}"
+            class="{% if request.resolver_match.url_name == 'profile' %}nav-item nav-link dropdown-toggle active{% else %}nav-item nav-link dropdown-toggle{% endif %}"
+            data-bs-toggle="dropdown"
             >{{request.user.email}}</a
           >
           <div class="dropdown-menu m-0">
-            <a href="price.html" class="dropdown-item">Profile</a>
-            <a href="feature.html" class="dropdown-item">Change Password</a>
+            <a href="{% url 'account:profile' %}" class="dropdown-item"
+              >Profile</a
+            >
+            <a href="{% url 'account:password_change' %}" class="dropdown-item"
+              >Change Password</a
+            >
           </div>
         </div>
       </div>
@@ -38,12 +61,28 @@
       {% else %}
 
       <div class="navbar-nav ms-auto py-0">
-        <a href="/" class="nav-item nav-link">Home</a>
-        <a href="/about" class="nav-item nav-link">About</a>
-        <a href="/blog" class="nav-item nav-link">Blog</a>
-        <a href="/contact" class="nav-item nav-link">Contact</a>
+        <a
+          href="{% url 'index' %}"
+          class="{% if request.resolver_match.url_name == 'index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Home</a
+        >
+        <a
+          href="{% url 'about:about_index' %}"
+          class="{% if request.resolver_match.url_name == 'about_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >About</a
+        >
+        <a
+          href="{% url 'blog:blog_index' %}"
+          class="{% if request.resolver_match.url_name == 'blog_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Blog</a
+        >
+        <a
+          href="{% url 'contact:contact_index' %}"
+          class="{% if request.resolver_match.url_name == 'contact_index' %}nav-item nav-link active{% else %}nav-item nav-link{% endif %}"
+          >Contact</a
+        >
       </div>
-      <a href="/accounts/login/" class="btn btn-primary py-2 px-4 ms-3"
+      <a href="{% url 'account:login' %}" class="btn btn-primary py-2 px-4 ms-3"
         >Login</a
       >
 

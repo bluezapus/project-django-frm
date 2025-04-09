@@ -7,8 +7,8 @@ from . import views
 
 app_name = 'account'
 urlpatterns = [
-    path('', views.index_profiles, name='index'),
-    path('update/user/', views.update_Profiles, name='update_profile'),
+    path('profile/', views.index_profiles, name='profile'),
+    path('profile/update/user/', views.update_Profiles, name='update_profile'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'), #login
     path('logout/', views.LogoutView, name='logout'), #logout
     path('register/', views.register_users, name='register'), #register

@@ -81,62 +81,71 @@
           <div
             class="section-title section-title-sm position-relative pb-3 mb-4"
           >
-            <h3 class="mb-0">3 Comments</h3>
+            <h3 class="mb-0">{{comments.count}} Comments</h3>
           </div>
+          {% for comment in comments %}
+          <!-- reply -->
           <div class="d-flex mb-4">
             <img
-              src="img/user.jpg"
+              src="{{comment.user.img_user.url}}"
               class="img-fluid rounded"
               style="width: 45px; height: 45px"
             />
             <div class="ps-3">
               <h6>
-                <a href="">John Doe</a> <small><i>01 Jan 2045</i></small>
+                <a href="">{{comment.user.name}}</a>
+                <small><i>{{comment.timestamp}}</i></small>
               </h6>
-              <p>
-                Diam amet duo labore stet elitr invidunt ea clita ipsum
-                voluptua, tempor labore accusam ipsum et no at. Kasd diam tempor
-                rebum magna dolores sed eirmod
-              </p>
+              <p>{{comment.comments}}</p>
+
+              <form method="post">
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="comment_slug"
+                  value="{{comment.id}}"
+                />
+                {{form.comments}} {% if request.user.is_authenticated %}
+                <button class="mt-2 btn btn-primary btn-sm" type="submit">
+                  Balas komentar
+                </button>
+                {% else %}
+                <button
+                  class="disabled mt-2 btn btn-primary btn-sm"
+                  type="submit"
+                >
+                  Balas komentar
+                </button>
+                {% endif %}
+              </form>
+
+              <!-- reply -->
+              {% for reply in comment.replies.all %}
+              <div class="d-flex ms-5 mb-4">
+                <img
+                  src="{{reply.user.img_user.url}}"
+                  class="img-fluid rounded"
+                  style="width: 45px; height: 45px"
+                />
+                <div class="ps-3">
+                  <h6>
+                    <a href="">{{reply.user.name}}</a>
+                    <small><i>{{comment.timestamp}}</i></small>
+                  </h6>
+                  <p>{{reply.reply}}</p>
+                  <button class="btn btn-sm btn-light"></button>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- reply end -->
+              <!-- form reply -->
+
               <button class="btn btn-sm btn-light">Reply</button>
             </div>
           </div>
-          <div class="d-flex mb-4">
-            <img
-              src="img/user.jpg"
-              class="img-fluid rounded"
-              style="width: 45px; height: 45px"
-            />
-            <div class="ps-3">
-              <h6>
-                <a href="">John Doe</a> <small><i>01 Jan 2045</i></small>
-              </h6>
-              <p>
-                Diam amet duo labore stet elitr invidunt ea clita ipsum
-                voluptua, tempor labore accusam ipsum et no at. Kasd diam tempor
-                rebum magna dolores sed eirmod
-              </p>
-              <button class="btn btn-sm btn-light">Reply</button>
-            </div>
-          </div>
-          <div class="d-flex ms-5 mb-4">
-            <img
-              src="img/user.jpg"
-              class="img-fluid rounded"
-              style="width: 45px; height: 45px"
-            />
-            <div class="ps-3">
-              <h6>
-                <a href="">John Doe</a> <small><i>01 Jan 2045</i></small>
-              </h6>
-              <p>
-                Diam amet duo labore stet elitr invidunt ea clita ipsum
-                voluptua, tempor labore accusam ipsum et no at. Kasd diam tempor
-                rebum magna dolores sed eirmod
-              </p>
-              <button class="btn btn-sm btn-light">Reply</button>
-            </div>
-          </div>
+
+          {% endfor %}
+          <!-- reply -->
         </div>
         <!-- Comment List End -->
 
@@ -147,39 +156,10 @@
           >
             <h3 class="mb-0">Leave A Comment</h3>
           </div>
-          <form>
+          <form method="post">
+            {% csrf_token %}
             <div class="row g-3">
-              <div class="col-12 col-sm-6">
-                <input
-                  type="text"
-                  class="form-control bg-white border-0"
-                  placeholder="Your Name"
-                  style="height: 55px"
-                />
-              </div>
-              <div class="col-12 col-sm-6">
-                <input
-                  type="email"
-                  class="form-control bg-white border-0"
-                  placeholder="Your Email"
-                  style="height: 55px"
-                />
-              </div>
-              <div class="col-12">
-                <input
-                  type="text"
-                  class="form-control bg-white border-0"
-                  placeholder="Website"
-                  style="height: 55px"
-                />
-              </div>
-              <div class="col-12">
-                <textarea
-                  class="form-control bg-white border-0"
-                  rows="5"
-                  placeholder="Comment"
-                ></textarea>
-              </div>
+              <div class="col-12">{{form.comments}}</div>
               <div class="col-12">
                 <button class="btn btn-primary w-100 py-3" type="submit">
                   Leave Your Comment
@@ -269,18 +249,11 @@
             <h3 class="mb-0">Tag Cloud</h3>
           </div>
           <div class="d-flex flex-wrap m-n1">
-            <a href="" class="btn btn-light m-1">Design</a>
-            <a href="" class="btn btn-light m-1">Development</a>
-            <a href="" class="btn btn-light m-1">Marketing</a>
-            <a href="" class="btn btn-light m-1">SEO</a>
-            <a href="" class="btn btn-light m-1">Writing</a>
-            <a href="" class="btn btn-light m-1">Consulting</a>
-            <a href="" class="btn btn-light m-1">Design</a>
-            <a href="" class="btn btn-light m-1">Development</a>
-            <a href="" class="btn btn-light m-1">Marketing</a>
-            <a href="" class="btn btn-light m-1">SEO</a>
-            <a href="" class="btn btn-light m-1">Writing</a>
-            <a href="" class="btn btn-light m-1">Consulting</a>
+            {% for tags in tags %}
+            <a href="/blog/tags/{{tags.slug}}/" class="btn btn-light m-1"
+              >{{tags}}</a
+            >
+            {% endfor %}
           </div>
         </div>
         <!-- Tags End -->

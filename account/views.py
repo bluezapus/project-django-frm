@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 
 from . forms import RegisterUserForms, UpdateUserForm
 
 # Create your views here.
+@login_required
 def index_profiles(request):
      context = {
           'title': 'data profile',
@@ -15,7 +17,7 @@ def update_Profiles(request):
         form =UpdateUserForm(request.POST or None, request.FILES or None, instance=request.user) # update img_usr use FILES
         if form.is_valid():
             form.save()
-            return redirect('/accounts/')
+            return redirect('/accounts/profile/')
     else:
         form =UpdateUserForm(instance=request.user)
 

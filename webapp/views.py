@@ -11,3 +11,9 @@ def index(request):
         ]
     }
     return render(request, 'index.html', context)
+
+def heandler404(request):
+    context = {
+        'title': 'Page Not Found'
+    }
+    return render(request, '404.html', context, status=404)
